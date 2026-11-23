@@ -1,0 +1,17 @@
+{
+  "name": "P4SSTIM3 — The Internet Time Killer Arcade",
+  "short_name": "P4SSTIM3",
+  "description": "Got a minute? Play something.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0c13",
+  "theme_color": "#b7ff59",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

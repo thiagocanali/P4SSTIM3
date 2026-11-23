@@ -30,3 +30,34 @@ test('catalog filters, favorites and history route', async ({ page }) => {
   await page.goto('/history');
   await expect(page.getByRole('heading', { name: /YOUR HISTORY/i })).toBeVisible();
 });
+
+test('Code Breaker rejects invalid and repeated guesses without losing turns', async ({ page }) => {
+  await page.goto('/play/code-breaker');
+  const input = page.getByRole('textbox', { name: 'Three digit code' });
+  const guess = page.getByRole('button', { name: /GUESS/i });
+  await input.fill('112');
+  await expect(guess).toBeDisabled();
+  await input.fill('012');
+  await guess.click();
+  await expect(page.locator('.attempts > div')).toHaveCount(1);
+  await input.fill('012');
+  await guess.click();
+  await expect(page.getByRole('alert')).toContainText('already tried');
+  await expect(page.locator('.attempts > div')).toHaveCount(1);
+});
+test('Escape pauses and resumes a running game', async ({ page }) => {
+  await page.goto('/play/signal-match');
+  await page.keyboard.press('Escape');
+  await expect(page.getByText('YOUR GAME IS WAITING.')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByText('YOUR GAME IS WAITING.')).toHaveCount(0);
+});
+test('favorites persist after a reload and can be removed', async ({ page }) => {
+  await page.goto('/explore');
+  const first = page.locator('.card').first();
+  await first.getByRole('button', { name: 'Add favorite' }).click();
+  await page.reload();
+  await expect(page.locator('.card').first().getByRole('button', { name: 'Remove favorite' })).toBeVisible();
+  await page.locator('.card').first().getByRole('button', { name: 'Remove favorite' }).click();
+  await expect(page.locator('.card').first().getByRole('button', { name: 'Add favorite' })).toBeVisible();
+});

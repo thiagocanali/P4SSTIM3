@@ -7,14 +7,14 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [x] Game catalog, search, genres, duration filter and sort
 - [x] Random discovery, featured collection and related games
 - [x] Guest favorites persisted in localStorage
-- [ ] Validate navigation and filters with browser automation on desktop and mobile (Playwright tests added; awaiting CI)
+- [x] Validate navigation and filters with browser automation on desktop and mobile emulation (CI run 45272799533)
 
 ## Gameplay
 - [x] Five distinct game modules available through lazy loading
 - [x] Restart and fullscreen controls
 - [x] Record display and persistence in localStorage
 - [x] Code Breaker rules extracted for automated tests
-- [ ] Test start, pause, win and loss states across all applicable games (pause not implemented for canvas games)
+- [ ] Test start, pause, win and loss states across all applicable games (pause/resume smoke-tested; win/loss coverage pending)
 - [ ] Verify touch/keyboard behavior on actual mobile and desktop browsers (mobile emulation smoke tests added)
 - [ ] Validate score submission, including duplicate or interrupted games
 
@@ -29,17 +29,17 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [x] Vitest test suite configured for Code Breaker rules
 - [x] GitHub Actions workflow on push to main
 - [x] Verify the GitHub Actions job completed successfully (run 45268990704)
-- [x] Add ESLint and enforce it in CI (pending first successful run)
+- [x] Add ESLint and enforce it in CI (run 45272799533)
 - [ ] Expand unit/gameplay/e2e tests to all five games (catalog and memory rules now covered)
-- [ ] Verify no JS runtime errors, broken routes or inaccessible controls
+- [ ] Verify no JS runtime errors, broken routes or inaccessible controls (five-game browser smoke tests passed; full audit pending)
 - [ ] Run accessibility and responsive-layout checks
 - [ ] Audit security headers and external dependencies
 - [ ] Add genuine offline PWA support only after verifying caching and update behavior
-- [ ] Verify deployed production site and release smoke tests
+- [ ] Verify deployed production site and release smoke tests (Vercel READY for 8bf480c; browser tests run against local preview)
 
 ## Release gates
-- [ ] Automated checks pass on the release commit
-- [x] Production deployment state READY for commit 463a69d (not a complete release gate)
+- [x] Automated checks pass on commit 8bf480c (unit, lint, build, Playwright desktop/mobile emulation)
+- [x] Production deployment state READY for commit 8bf480c (not a complete release gate)
 - [ ] All five games manually or automatically verified on desktop and mobile
 - [ ] No critical defects or simulated features passed off as complete
 

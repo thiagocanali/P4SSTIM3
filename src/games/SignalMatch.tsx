@@ -11,16 +11,29 @@ function makeDeck(): Card[] {
   }
   return cards;
 }
-export default function SignalMatch({ onScore }: Props) {
+export default function SignalMatch({ onScore, paused }: Props) {
   const [cards] = useState(makeDeck);
   const [open, setOpen] = useState<number[]>([]);
   const [matched, setMatched] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [locked, setLocked] = useState(false);
   const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mismatchRemaining = useRef(700);
+  const mismatchStarted = useRef(0);
+  useEffect(() => {
+    if (!locked) return;
+    if (paused) {
+      if (timeout.current) clearTimeout(timeout.current);
+      mismatchRemaining.current = Math.max(0, mismatchRemaining.current - (Date.now() - mismatchStarted.current));
+      return;
+    }
+    mismatchStarted.current = Date.now();
+    timeout.current = setTimeout(() => { setOpen([]); setLocked(false); }, mismatchRemaining.current);
+    return () => { if (timeout.current) clearTimeout(timeout.current); };
+  }, [paused, locked]);
   useEffect(() => () => { if (timeout.current) clearTimeout(timeout.current); }, []);
   function flip(index: number) {
-    if (locked || open.includes(index) || matched.includes(index) || matched.length === cards.length) return;
+    if (paused || locked || open.includes(index) || matched.includes(index) || matched.length === cards.length) return;
     if (open.length === 0) { setOpen([index]); return; }
     const first = open[0];
     const nextMoves = moves + 1;
@@ -33,7 +46,7 @@ export default function SignalMatch({ onScore }: Props) {
     } else {
       setOpen([first, index]);
       setLocked(true);
-      timeout.current = setTimeout(() => { setOpen([]); setLocked(false); }, 700);
+      mismatchRemaining.current = 700;
     }
   }
   return <div className="memory">

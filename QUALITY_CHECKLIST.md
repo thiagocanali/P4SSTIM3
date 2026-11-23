@@ -7,7 +7,7 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [x] Game catalog, search, genres, duration filter and sort
 - [x] Random discovery, featured collection and related games
 - [x] Guest favorites persisted in localStorage
-- [ ] Validate navigation and filters with browser automation on desktop and mobile
+- [ ] Validate navigation and filters with browser automation on desktop and mobile (Playwright tests added; awaiting CI)
 
 ## Gameplay
 - [x] Five distinct game modules available through lazy loading
@@ -15,7 +15,7 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [x] Record display and persistence in localStorage
 - [x] Code Breaker rules extracted for automated tests
 - [ ] Test start, pause, win and loss states across all applicable games (pause not implemented for canvas games)
-- [ ] Verify touch/keyboard behavior on actual mobile and desktop browsers
+- [ ] Verify touch/keyboard behavior on actual mobile and desktop browsers (mobile emulation smoke tests added)
 - [ ] Validate score submission, including duplicate or interrupted games
 
 ## Gamification

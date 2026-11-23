@@ -28,7 +28,7 @@ npm run build
 - `src/catalog.ts` is the lazy-loaded registry of the five original games.
 - `src/games/` holds individual React game implementations.
 - `src/lib/` holds game logic designed to be unit-testable.
-- Guest favorites and high scores are stored locally in browser storage. There is no account system or server-side leaderboard.
+- Guest favorites, high scores and a 50-session history are stored locally in browser storage. The history is available at `/history`. There is no account system or server-side leaderboard.
 - `public/manifest.webmanifest` adds install metadata; offline caching is **not** enabled.
 - `npm run test` runs Vitest; `npm run build` runs TypeScript validation and the Vite production build.
 - CI runs on pushes to `main`, pull requests and manual dispatch. Vercel handles Git-connected production deployments.

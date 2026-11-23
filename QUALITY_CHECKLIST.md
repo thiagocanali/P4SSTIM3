@@ -14,13 +14,13 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [x] Restart and fullscreen controls
 - [x] Record display and persistence in localStorage
 - [x] Code Breaker rules extracted for automated tests
-- [ ] Test start, pause, win and loss states across all applicable games
+- [ ] Test start, pause, win and loss states across all applicable games (pause not implemented for canvas games)
 - [ ] Verify touch/keyboard behavior on actual mobile and desktop browsers
 - [ ] Validate score submission, including duplicate or interrupted games
 
 ## Gamification
 - [x] Local favorites and personal bests
-- [ ] Completed game history persisted with timestamps
+- [x] Completed game history persisted with timestamps
 - [ ] Original achievements backed by real game events
 - [ ] Future backend: authentication, verified score submissions, opt-in public leaderboards
 
@@ -28,7 +28,7 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [x] TypeScript build script
 - [x] Vitest test suite configured for Code Breaker rules
 - [x] GitHub Actions workflow on push to main
-- [ ] Verify the GitHub Actions job completed successfully
+- [x] Verify the GitHub Actions job completed successfully (run 45268990704)
 - [ ] Add ESLint and enforce it in CI
 - [ ] Expand unit/gameplay/e2e tests to all five games
 - [ ] Verify no JS runtime errors, broken routes or inaccessible controls
@@ -39,7 +39,7 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 
 ## Release gates
 - [ ] Automated checks pass on the release commit
-- [ ] Production deployment state READY for the release commit
+- [x] Production deployment state READY for commit 463a69d (not a complete release gate)
 - [ ] All five games manually or automatically verified on desktop and mobile
 - [ ] No critical defects or simulated features passed off as complete
 

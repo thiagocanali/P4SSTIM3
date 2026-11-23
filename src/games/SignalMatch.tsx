@@ -1,16 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Props } from '../catalog';
 
-const symbols = ['★', '✿', '☀', '♥', '◆', '☁', '☂', '♫'];
-type Card = { value: string; id: number };
-function makeDeck(): Card[] {
-  const cards = [...symbols, ...symbols].map((value, id) => ({ value, id }));
-  for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cards[i], cards[j]] = [cards[j], cards[i]];
-  }
-  return cards;
-}
+import { makeDeck, memoryScore } from '../lib/memory';
 export default function SignalMatch({ onScore, paused }: Props) {
   const [cards] = useState(makeDeck);
   const [open, setOpen] = useState<number[]>([]);
@@ -42,7 +33,7 @@ export default function SignalMatch({ onScore, paused }: Props) {
       const nextMatched = [...matched, first, index];
       setMatched(nextMatched);
       setOpen([]);
-      if (nextMatched.length === cards.length) onScore(Math.max(10, 200 - nextMoves * 10));
+      if (nextMatched.length === cards.length) onScore(memoryScore(nextMoves));
     } else {
       setOpen([first, index]);
       setLocked(true);
@@ -58,6 +49,6 @@ export default function SignalMatch({ onScore, paused }: Props) {
         aria-label={visible ? 'Revealed ' + card.value : 'Hidden card ' + (index + 1)}
         aria-pressed={visible}>{visible ? card.value : '?'}</button>;
     })}</div>
-    <p className="hint" role="status" aria-live="polite">{matched.length === 16 ? '★ ALL PAIRS FOUND! SCORE: ' + Math.max(10, 200 - moves * 10) : 'MATCH ALL PAIRS · FEWER MOVES = HIGHER SCORE'}</p>
+    <p className="hint" role="status" aria-live="polite">{matched.length === 16 ? '★ ALL PAIRS FOUND! SCORE: ' + memoryScore(moves) : 'MATCH ALL PAIRS · FEWER MOVES = HIGHER SCORE'}</p>
   </div>;
 }

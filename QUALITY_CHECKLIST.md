@@ -29,8 +29,8 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [x] Vitest test suite configured for Code Breaker rules
 - [x] GitHub Actions workflow on push to main
 - [x] Verify the GitHub Actions job completed successfully (run 45268990704)
-- [ ] Add ESLint and enforce it in CI
-- [ ] Expand unit/gameplay/e2e tests to all five games
+- [x] Add ESLint and enforce it in CI (pending first successful run)
+- [ ] Expand unit/gameplay/e2e tests to all five games (catalog and memory rules now covered)
 - [ ] Verify no JS runtime errors, broken routes or inaccessible controls
 - [ ] Run accessibility and responsive-layout checks
 - [ ] Audit security headers and external dependencies

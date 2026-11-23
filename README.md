@@ -1,40 +1,42 @@
 # P4SSTIM3 — The Internet Time Killer Arcade
 
-**Got a minute? Play something.** A free, no-sign-up browser arcade with five original playable games.
+**Got a minute? Play something.** An original, free browser arcade built with React, TypeScript and Vite. Production: https://p4sstim3.vercel.app/
 
-## Run locally
+## Getting started
 
-Requires Node.js 20+.
+Node.js 22 or newer recommended.
 
 ```bash
-npm install
+npm ci
 npm run dev
+npm run test
 npm run build
 ```
 
 ## Games
 
-| Game | Category | Controls |
-|---|---|---|
-| Neon Dodger | Arcade | Arrow keys, A/D, or touch |
-| Signal Match | Puzzle | Click or tap cards |
-| Pixel Dash | Runner | Space, Up, or touch |
-| Code Breaker | Logic | Three distinct digits |
-| Chaos Button | Experimental | Click or tap when green |
+| Game | Genre | How to play |
+| --- | --- | --- |
+| Neon Dodger | Arcade | Dodge falling blocks with A/D, arrows or touch controls |
+| Signal Match | Puzzle | Match eight pairs in as few moves as possible |
+| Pixel Dash | Runner | Jump with Space, Up or tap |
+| Code Breaker | Logic | Guess the three different digits within eight tries |
+| Chaos Button | Experimental | Press when green, stop when red |
 
-## Architecture
+## Technical architecture
 
-- React 19 + TypeScript + Vite.
-- Data-driven registry in `src/catalog.ts` with lazy-loaded game modules in `src/games/`.
-- Guest-first, no authentication required.
-- Local favorites and personal high scores stored in versioned browser storage keys.
-- Homepage, catalog with search/category/duration/sorting, game pages, random discovery, fullscreen and restart.
-- Responsive dark visual system with original shapes and no third-party game assets.
+- `src/catalog.ts` is the lazy-loaded registry of the five original games.
+- `src/games/` holds individual React game implementations.
+- `src/lib/` holds game logic designed to be unit-testable.
+- Guest favorites and high scores are stored locally in browser storage. There is no account system or server-side leaderboard.
+- `public/manifest.webmanifest` adds install metadata; offline caching is **not** enabled.
+- `npm run test` runs Vitest; `npm run build` runs TypeScript validation and the Vite production build.
+- CI runs on pushes to `main`, pull requests and manual dispatch. Vercel handles Git-connected production deployments.
 
-## Limitations / next steps
+## Roadmap and quality gates
 
-The MVP has no backend, real user ratings, global leaderboards or multiplayer. All games are local browser experiences. Scores are not verified server-side. Next: add automated gameplay tests, keyboard accessibility polish, optional accounts and secure leaderboard infrastructure.
+See [QUALITY_CHECKLIST.md](QUALITY_CHECKLIST.md). The current hosted MVP is **not yet certified production-ready** until automated CI, cross-browser/mobile gameplay and deployment smoke testing are verified.
 
 ## Deployment
 
-Static build output: `dist/`. SPA rewrite in `vercel.json`. Avoid excessive automatic previews; CI runs on pull requests and manual dispatch only.
+Vercel builds `dist/` with a SPA fallback from `vercel.json`. There are no manual deployment steps for normal pushes to the default branch.

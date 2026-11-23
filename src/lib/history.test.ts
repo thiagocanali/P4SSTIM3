@@ -22,6 +22,10 @@ describe('local game history', () => {
     for (let i = 0; i < 60; i++) recordHistory('signal-match', i, '2026-11-23T13:00:00.000Z');
     expect(readHistory()).toHaveLength(50);
   });
+  it('records zero-point defeats without discarding the round', () => {
+    recordHistory('code-breaker', 0, '2026-11-23T14:00:00.000Z');
+    expect(readHistory()).toEqual([{ gameId: 'code-breaker', score: 0, playedAt: '2026-11-23T14:00:00.000Z' }]);
+  });
   it('continues even if storage is unavailable', () => {
     vi.stubGlobal('localStorage', {
       getItem: () => { throw new Error('blocked'); },

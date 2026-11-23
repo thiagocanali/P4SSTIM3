@@ -61,3 +61,27 @@ test('favorites persist after a reload and can be removed', async ({ page }) => 
   await page.locator('.card').first().getByRole('button', { name: 'Remove favorite' }).click();
   await expect(page.locator('.card').first().getByRole('button', { name: 'Add favorite' })).toBeVisible();
 });
+
+test('Code Breaker win saves points once to history', async ({ page }) => {
+  await page.addInitScript(() => { Math.random = () => 0; });
+  await page.goto('/play/code-breaker');
+  await page.getByRole('textbox', { name: 'Three digit code' }).fill('123');
+  await page.getByRole('button', { name: /GUESS/i }).click();
+  await expect(page.getByRole('heading', { name: /CODE CRACKED/i })).toBeVisible();
+  await page.goto('/history');
+  await expect(page.locator('.history-entry')).toHaveCount(1);
+  await expect(page.locator('.history-entry').first()).toContainText('800 PTS');
+});
+test('Code Breaker defeat records a zero-point completed round', async ({ page }) => {
+  await page.addInitScript(() => { Math.random = () => 0; });
+  await page.goto('/play/code-breaker');
+  const guesses = ['012', '013', '014', '015', '016', '017', '018', '019'];
+  for (const code of guesses) {
+    await page.getByRole('textbox', { name: 'Three digit code' }).fill(code);
+    await page.getByRole('button', { name: /GUESS/i }).click();
+  }
+  await expect(page.getByRole('heading', { name: /OUT OF ATTEMPTS/i })).toBeVisible();
+  await page.goto('/history');
+  await expect(page.locator('.history-entry')).toHaveCount(1);
+  await expect(page.locator('.history-entry').first()).toContainText('0 PTS');
+});

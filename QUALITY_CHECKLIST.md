@@ -16,7 +16,7 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [x] Code Breaker rules extracted for automated tests
 - [ ] Test start, pause, win and loss states across all applicable games (pause/resume smoke-tested; win/loss coverage pending)
 - [ ] Verify touch/keyboard behavior on actual mobile and desktop browsers (mobile emulation smoke tests added)
-- [ ] Validate score submission, including duplicate or interrupted games
+- [ ] Validate score submission, including duplicate or interrupted games (Code Breaker win/loss tests added; pending CI; other games pending)
 
 ## Gamification
 - [x] Local favorites and personal bests

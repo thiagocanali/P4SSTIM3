@@ -28,6 +28,7 @@ export default function CodeBreaker({ onScore }: Props) {
     setGuess('');
     setError('');
     if (attempt.exact === 3) onScore(codeBreakerScore(next.length));
+    else if (next.length === 8) onScore(0);
   }
   return <div className="logic">
     <small>THE SECRET CODE</small>

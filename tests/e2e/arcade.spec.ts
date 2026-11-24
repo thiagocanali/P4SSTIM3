@@ -67,7 +67,7 @@ test('Code Breaker win saves points once to history', async ({ page }) => {
   await page.goto('/play/code-breaker');
   await page.getByRole('textbox', { name: 'Three digit code' }).fill('123');
   await page.getByRole('button', { name: /GUESS/i }).click();
-  await expect(page.getByRole('status', { name: /CODE CRACKED/i })).toBeVisible();
+  await expect(page.locator('h3[role="status"]').filter({ hasText: 'CODE CRACKED!' })).toBeVisible();
   await page.goto('/history');
   await expect(page.locator('.history-entry')).toHaveCount(1);
   await expect(page.locator('.history-entry').first()).toContainText('800 PTS');
@@ -80,7 +80,7 @@ test('Code Breaker defeat records a zero-point completed round', async ({ page }
     await page.getByRole('textbox', { name: 'Three digit code' }).fill(code);
     await page.getByRole('button', { name: /GUESS/i }).click();
   }
-  await expect(page.getByRole('status', { name: /OUT OF ATTEMPTS/i })).toBeVisible();
+  await expect(page.locator('h3[role="status"]').filter({ hasText: 'OUT OF ATTEMPTS!' })).toBeVisible();
   await page.goto('/history');
   await expect(page.locator('.history-entry')).toHaveCount(1);
   await expect(page.locator('.history-entry').first()).toContainText('0 PTS');

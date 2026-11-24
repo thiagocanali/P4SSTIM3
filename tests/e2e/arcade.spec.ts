@@ -144,11 +144,17 @@ test('installed service worker opens all five games offline', async ({ page, con
   await page.goto('/');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
+  const cached = await page.evaluate(async () => (await Promise.all((await caches.keys()).filter(k => k.startsWith('p4-offline-')).map(async k => (await (await caches.open(k)).keys()).map(r => new URL(r.url).pathname)))).flat());
+  expect(cached).toContain('/index.html');
+  expect(cached.filter(p => p.endsWith('.js')).length).toBeGreaterThanOrEqual(6);
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
   await context.setOffline(true);
   try {
     for (const id of ['neon-dodger', 'signal-match', 'pixel-dash', 'code-breaker', 'chaos-button']) {
       await page.goto('/play/' + id);
-      await expect(page.locator('.game-surface canvas, .game-surface .memory-grid, .game-surface input, .game-surface button').first()).toBeVisible();
+      await expect(page.locator('.game-surface'), id + ': ' + errors.join('; ')).toBeVisible();
+      await expect(page.locator('.game-active > :not(.loading)').first(), id + ': ' + errors.join('; ')).toBeVisible();
     }
   } finally { await context.setOffline(false); }
 });

@@ -32,6 +32,7 @@ test('catalog filters, favorites and history route', async ({ page }) => {
 });
 
 test('Code Breaker rejects invalid and repeated guesses without losing turns', async ({ page }) => {
+  await page.addInitScript(() => { Math.random = () => 0; });
   await page.goto('/play/code-breaker');
   const input = page.getByRole('textbox', { name: 'Three digit code' });
   const guess = page.getByRole('button', { name: /GUESS/i });
@@ -71,6 +72,8 @@ test('Code Breaker win saves points once to history', async ({ page }) => {
   await page.goto('/history');
   await expect(page.locator('.history-entry')).toHaveCount(1);
   await expect(page.locator('.history-entry').first()).toContainText('800 PTS');
+  await expect(page.getByLabel('Recent round statistics')).toContainText('800');
+  await expect(page.getByText('CODE CRACKER', { exact: true })).toBeVisible();
 });
 test('Code Breaker defeat records a zero-point completed round', async ({ page }) => {
   await page.addInitScript(() => { Math.random = () => 0; });

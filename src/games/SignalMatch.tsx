@@ -44,7 +44,7 @@ export default function SignalMatch({ onScore, paused }: Props) {
     <div className="stats"><span>MOVES: {moves}</span><span>PAIRS: {matched.length / 2}/8</span></div>
     <div className="memory-grid">{cards.map((card, index) => {
       const visible = open.includes(index) || matched.includes(index);
-      return <button key={card.id} type="button" disabled={locked || matched.includes(index)} onClick={() => flip(index)}
+      return <button key={card.id} type="button" disabled={paused || locked || matched.includes(index) || open.includes(index)} onClick={() => flip(index)}
         className={matched.includes(index) ? 'matched' : open.includes(index) ? 'flipped' : ''}
         aria-label={visible ? 'Revealed ' + card.value : 'Hidden card ' + (index + 1)}
         aria-pressed={visible}>{visible ? card.value : '?'}</button>;

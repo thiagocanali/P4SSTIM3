@@ -21,7 +21,7 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 ## Gamification
 - [x] Local favorites and personal bests
 - [x] Completed game history persisted with timestamps
-- [ ] Permanent achievements backed by real game events (recent-history milestones implemented; pending CI)
+- [x] Permanent local achievements backed by game events (CI 45370443021)
 - [ ] Future backend: authentication, verified score submissions, opt-in public leaderboards
 
 ## Quality and infrastructure
@@ -34,7 +34,8 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [ ] Verify no JS runtime errors, broken routes or inaccessible controls (five-game browser smoke tests passed; full audit pending)
 - [ ] Run accessibility and responsive-layout checks
 - [ ] Audit security headers and external dependencies
-- [ ] Add genuine offline PWA support only after verifying caching and update behavior
+- [x] Offline navigation and all five game modules verified on desktop/mobile emulation (CI 45371689608)
+- [ ] Verify installation on physical devices and cache updates across releases
 - [ ] Verify deployed production site and release smoke tests (Vercel READY for 8bf480c; browser tests run against local preview)
 
 ## Release gates

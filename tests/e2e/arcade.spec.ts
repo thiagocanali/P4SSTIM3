@@ -139,3 +139,16 @@ test('Neon Dodger collision records one completed round', async ({ page }) => {
   await expect(page.locator('.history-entry')).toHaveCount(1);
   await expect(page.locator('.history-entry')).toContainText('NEON DODGER');
 });
+
+test('installed service worker opens all five games offline', async ({ page, context }) => {
+  await page.goto('/');
+  await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+  await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
+  await context.setOffline(true);
+  try {
+    for (const id of ['neon-dodger', 'signal-match', 'pixel-dash', 'code-breaker', 'chaos-button']) {
+      await page.goto('/play/' + id);
+      await expect(page.locator('.game-active > :not(.loading)').first()).toBeVisible();
+    }
+  } finally { await context.setOffline(false); }
+});

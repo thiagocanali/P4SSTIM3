@@ -148,7 +148,7 @@ test('installed service worker opens all five games offline', async ({ page, con
   try {
     for (const id of ['neon-dodger', 'signal-match', 'pixel-dash', 'code-breaker', 'chaos-button']) {
       await page.goto('/play/' + id);
-      await expect(page.locator('.game-active > :not(.loading)').first()).toBeVisible();
+      await expect(page.locator('.game-surface canvas, .game-surface .memory-grid, .game-surface input, .game-surface button').first()).toBeVisible();
     }
   } finally { await context.setOffline(false); }
 });

@@ -95,3 +95,44 @@ test('Code Breaker cannot submit guesses while paused', async ({ page }) => {
   await page.getByRole('button', { name: '▶ RESUME GAME' }).click();
   await expect(page.getByRole('textbox', { name: 'Three digit code' })).toBeEnabled();
 });
+
+test('Signal Match completes all pairs and saves the perfect score', async ({ page }) => {
+  await page.addInitScript(() => { Math.random = () => 0; });
+  await page.goto('/play/signal-match');
+  const cards = page.locator('.memory-grid button');
+  await expect(cards).toHaveCount(16);
+  for (let i = 0; i < 8; i++) {
+    await cards.nth(i).click();
+    await cards.nth(i + 8).click();
+  }
+  await expect(page.getByText(/ALL PAIRS FOUND! SCORE: 120/)).toBeVisible();
+  await page.goto('/history');
+  await expect(page.locator('.history-entry')).toHaveCount(1);
+  await expect(page.locator('.history-entry')).toContainText('120 PTS');
+});
+test('Chaos Button ends on a forbidden press and saves its score', async ({ page }) => {
+  await page.addInitScript(() => { Math.random = () => 0.99; });
+  await page.goto('/play/chaos-button');
+  const press = page.getByRole('button', { name: 'PRESS ME', exact: true });
+  for (let i = 0; i < 3; i++) await press.click();
+  await page.getByRole('button', { name: 'WAIT!', exact: true }).click();
+  await expect(page.getByText('FINAL SCORE: 30')).toBeVisible();
+  await page.goto('/history');
+  await expect(page.locator('.history-entry')).toHaveCount(1);
+  await expect(page.locator('.history-entry')).toContainText('30 PTS');
+});
+test('Pixel Dash collision records one completed round', async ({ page }) => {
+  await page.goto('/play/pixel-dash');
+  await expect(page.getByRole('button', { name: /GAME OVER — RESTART ABOVE/ })).toBeVisible({ timeout: 15000 });
+  await page.goto('/history');
+  await expect(page.locator('.history-entry')).toHaveCount(1);
+  await expect(page.locator('.history-entry')).toContainText('PIXEL DASH');
+});
+test('Neon Dodger collision records one completed round', async ({ page }) => {
+  await page.addInitScript(() => { Math.random = () => 0.5; });
+  await page.goto('/play/neon-dodger');
+  await expect(page.getByText('RESTART ABOVE', { exact: true })).toBeVisible({ timeout: 15000 });
+  await page.goto('/history');
+  await expect(page.locator('.history-entry')).toHaveCount(1);
+  await expect(page.locator('.history-entry')).toContainText('NEON DODGER');
+});

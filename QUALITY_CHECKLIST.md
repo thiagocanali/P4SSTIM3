@@ -16,7 +16,7 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [x] Code Breaker rules extracted for automated tests
 - [ ] Test start, pause, win and loss states across all applicable games (pause/resume smoke-tested; win/loss coverage pending)
 - [ ] Verify touch/keyboard behavior on actual mobile and desktop browsers (mobile emulation smoke tests added)
-- [ ] Validate score submission, including duplicate or interrupted games (Code Breaker win/loss tests added; pending CI; other games pending)
+- [ ] Validate score submission, including duplicate or interrupted games (Code Breaker win/loss verified in CI 45300159087; completion tests for four other games added, pending CI)
 
 ## Gamification
 - [x] Local favorites and personal bests
@@ -38,8 +38,8 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 - [ ] Verify deployed production site and release smoke tests (Vercel READY for 8bf480c; browser tests run against local preview)
 
 ## Release gates
-- [x] Automated checks pass on commit 8bf480c (unit, lint, build, Playwright desktop/mobile emulation)
-- [x] Production deployment state READY for commit 8bf480c (not a complete release gate)
+- [x] Automated checks pass on commit 1bf5f7c (unit, lint, build, Playwright desktop/mobile emulation)
+- [x] Production deployment state READY for commit 1bf5f7c (not a complete release gate)
 - [ ] All five games manually or automatically verified on desktop and mobile
 - [ ] No critical defects or simulated features passed off as complete
 

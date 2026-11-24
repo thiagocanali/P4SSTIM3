@@ -4,7 +4,7 @@ import type { Props } from '../catalog';
 import { checkGuess, codeBreakerScore, makeCode } from '../lib/codeBreaker';
 import type { Attempt } from '../lib/codeBreaker';
 
-export default function CodeBreaker({ onScore }: Props) {
+export default function CodeBreaker({ onScore, paused }: Props) {
   const [code] = useState(makeCode);
   const [guess, setGuess] = useState('');
   const [history, setHistory] = useState<Attempt[]>([]);
@@ -13,7 +13,7 @@ export default function CodeBreaker({ onScore }: Props) {
   const lost = history.length >= 8 && !won;
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (won || lost) return;
+    if (won || lost || paused) return;
     if (!/^[0-9]{3}$/.test(guess) || new Set(guess).size !== 3) {
       setError('Enter three different digits to submit.');
       return;
@@ -35,8 +35,8 @@ export default function CodeBreaker({ onScore }: Props) {
     <div className="secret" aria-label={won ? 'Secret code ' + code : 'Secret code hidden'}>{won ? code : '? ? ?'}</div>
     <p>3 UNIQUE DIGITS / 8 ATTEMPTS</p>
     <form onSubmit={submit}>
-      <input aria-label="Three digit code" inputMode="numeric" autoComplete="off" placeholder="123" maxLength={3} value={guess} disabled={won || lost} onChange={event => { setGuess(event.target.value.replace(/\D/g, '').slice(0, 3)); setError(''); }}/>
-      <button disabled={won || lost || guess.length !== 3 || new Set(guess).size !== 3}>GUESS ↗</button>
+      <input aria-label="Three digit code" inputMode="numeric" autoComplete="off" placeholder="123" maxLength={3} value={guess} disabled={won || lost || paused} onChange={event => { setGuess(event.target.value.replace(/\D/g, '').slice(0, 3)); setError(''); }}/>
+      <button disabled={won || lost || paused || guess.length !== 3 || new Set(guess).size !== 3}>GUESS ↗</button>
     </form>
     {error && <p className="hint" role="alert">{error}</p>}
     <p className="hint">● GREEN = EXACT POSITION · 🟠 = CORRECT DIGIT, WRONG POSITION</p>

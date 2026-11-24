@@ -85,3 +85,13 @@ test('Code Breaker defeat records a zero-point completed round', async ({ page }
   await expect(page.locator('.history-entry')).toHaveCount(1);
   await expect(page.locator('.history-entry').first()).toContainText('0 PTS');
 });
+
+test('Code Breaker cannot submit guesses while paused', async ({ page }) => {
+  await page.goto('/play/code-breaker');
+  await page.getByRole('textbox', { name: 'Three digit code' }).fill('012');
+  await page.getByRole('button', { name: /PAUSE/i }).click();
+  await expect(page.getByRole('textbox', { name: 'Three digit code' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: /GUESS/i })).toBeDisabled();
+  await page.getByRole('button', { name: '▶ RESUME GAME' }).click();
+  await expect(page.getByRole('textbox', { name: 'Three digit code' })).toBeEnabled();
+});

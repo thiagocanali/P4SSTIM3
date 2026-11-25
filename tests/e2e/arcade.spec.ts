@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
-test('homepage and five games load without runtime errors', async ({ page }) => {
+test('homepage and ten games load without runtime errors', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /BORED/i })).toBeVisible();
   await page.getByRole('link', { name: 'EXPLORE', exact: true }).click();
-  await expect(page.locator('.card')).toHaveCount(5);
-  const ids = ['neon-dodger', 'signal-match', 'pixel-dash', 'code-breaker', 'chaos-button'];
+  await expect(page.locator('.card')).toHaveCount(10);
+  const ids = ['neon-dodger', 'signal-match', 'pixel-dash', 'code-breaker', 'chaos-button', 'neon-snake', 'cyber-tac-toe', 'reflex-arena', 'mine-protocol', 'color-rush'];
   for (const id of ids) {
     await page.goto('/play/' + id);
     await expect(page.locator('.game-surface')).toBeVisible();
@@ -140,7 +140,7 @@ test('Neon Dodger collision records one completed round', async ({ page }) => {
   await expect(page.locator('.history-entry')).toContainText('NEON DODGER');
 });
 
-test('installed service worker opens all five games offline', async ({ page, context }) => {
+test('installed service worker opens all ten games offline', async ({ page, context }) => {
   await page.goto('/');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
@@ -151,7 +151,7 @@ test('installed service worker opens all five games offline', async ({ page, con
   page.on('pageerror', error => errors.push(error.message));
   await context.setOffline(true);
   try {
-    for (const id of ['neon-dodger', 'signal-match', 'pixel-dash', 'code-breaker', 'chaos-button']) {
+    for (const id of ['neon-dodger', 'signal-match', 'pixel-dash', 'code-breaker', 'chaos-button', 'neon-snake', 'cyber-tac-toe', 'reflex-arena', 'mine-protocol', 'color-rush']) {
       await page.goto('/play/' + id);
       await expect(page.locator('.game-surface'), id + ': ' + errors.join('; ')).toBeVisible();
       await expect(page.locator('.game-active > :not(.loading)').first(), id + ': ' + errors.join('; ')).toBeVisible();

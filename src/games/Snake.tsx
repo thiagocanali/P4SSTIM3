@@ -1,0 +1,9 @@
+import { useState, useEffect, useRef } from 'react';
+import type { Props } from '../catalog';
+export default function Snake({paused,onScore}:Props){
+ const [body,setBody]=useState([54,53,52]); const [food,setFood]=useState(58); const [over,setOver]=useState(false); const dir=useRef(1); const next=useRef(1);
+ const turn=(d:number)=>{if(!paused&&!over&&d!==-dir.current)next.current=d};
+ useEffect(()=>{const key=(e:KeyboardEvent)=>{const d=({ArrowLeft:-1,ArrowRight:1,ArrowUp:-10,ArrowDown:10} as Record<string,number>)[e.key];if(d&&!paused&&!over){e.preventDefault();if(d!==-dir.current)next.current=d}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[paused,over]);
+ useEffect(()=>{if(paused||over)return;const t=setTimeout(()=>{const d=next.current;dir.current=d;const h=body[0],n=h+d;const eat=n===food;if(n<0||n>=100||(d===1&&h%10===9)||(d===-1&&h%10===0)||(eat?body:body.slice(0,-1)).includes(n)){setOver(true);onScore((body.length-3)*10);return}const b=[n,...body];if(!eat)b.pop();setBody(b);if(eat){const free=Array.from({length:100},(_,i)=>i).filter(i=>!b.includes(i));if(!free.length){setOver(true);onScore(970)}else setFood(free[Math.floor(Math.random()*free.length)])}},250);return()=>clearTimeout(t)},[body,food,paused,over,onScore]);
+ return <div><p role="status">{over?'GAME OVER':'SCORE '+(body.length-3)*10}</p><div style={{display:'grid',gridTemplateColumns:'repeat(10,1fr)',maxWidth:360,margin:'auto'}}>{Array.from({length:100},(_,i)=><div key={i} style={{aspectRatio:'1',border:'1px solid #263347',background:body.includes(i)?'#b7ff59':i===food?'#ff5b91':'#101827'}}/>)}</div><div className="touch-controls">{[[-1,'LEFT'],[-10,'UP'],[10,'DOWN'],[1,'RIGHT']].map(([d,label])=><button key={label} disabled={paused||over} onClick={()=>turn(Number(d))}>{label}</button>)}</div></div>
+}

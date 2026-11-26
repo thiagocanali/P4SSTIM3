@@ -21,7 +21,7 @@ export function saveProgress(p: Progress) {
 export function achievements(p: Progress, gameIds: string[]) {
   return [
     { name: 'FIRST ROUND', description: 'Complete a round', unlocked: p.rounds >= 1 },
-    { name: 'ARCADE EXPLORER', description: 'Complete every game', unlocked: gameIds.length > 0 && gameIds.every(id => p.games.includes(id)) },
+    { name: 'ARCADE EXPLORER', description: 'Complete five different games', unlocked: new Set(p.games.filter(id => gameIds.includes(id))).size >= Math.min(5, gameIds.length) && gameIds.length > 0 },
     { name: 'TEN ROUNDS', description: 'Complete ten rounds', unlocked: p.rounds >= 10 },
     { name: 'CODE CRACKER', description: 'Earn points in Code Breaker', unlocked: p.cracked }
   ];

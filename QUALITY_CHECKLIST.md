@@ -54,3 +54,6 @@ Commit straight to main only as approved. Keep commits scoped; do not bypass che
 - [ ] Verify category deduplication and updated homepage count in CI.
 
 - [ ] Session completion guard and integer score validation implemented; unit and browser regression tests added, CI pending.
+
+- [x] Session guard, category deduplication and first-click mine regression tests passed in CI 45794607762 (commit 0a46db3).
+- [ ] Fixed five-game explorer milestone and defensive local storage parsing: validation pending.

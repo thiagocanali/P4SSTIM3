@@ -9,3 +9,5 @@ it('retains early achievements beyond the recent history limit', () => {
 it('does not award code cracker for a defeat', () => {
   expect(advanceProgress(fromHistory([]),'code-breaker',0).cracked).toBe(false);
 });
+
+it('keeps explorer unlocked as the catalog expands',()=>{const ids=['a','b','c','d','e'];let p=fromHistory([]);for(const id of ids)p=advanceProgress(p,id,0);expect(achievements(p,[...ids,'f','g']).find(a=>a.name==='ARCADE EXPLORER')?.unlocked).toBe(true)});

@@ -52,3 +52,5 @@ Commit straight to main only as approved. Keep commits scoped; do not bypass che
 - [x] Eleven registered games; route, pause/restart and offline smoke tests passed on commit e26a66e (CI 45748267168: 21 unit and 26 browser tests).
 - [ ] Validate the new first-click mine protection, pause-aware reaction timing and Color Rush countdown under repeated input.
 - [ ] Verify category deduplication and updated homepage count in CI.
+
+- [ ] Session completion guard and integer score validation implemented; unit and browser regression tests added, CI pending.

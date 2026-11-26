@@ -158,3 +158,6 @@ test('installed service worker opens all eleven games offline', async ({ page, c
     }
   } finally { await context.setOffline(false); }
 });
+
+ test('catalog categories are unique',async({page})=>{await page.goto('/explore');const labels=await page.locator('.pills button').allTextContents();expect(new Set(labels).size).toBe(labels.length)});
+ test('Mine Protocol first click cannot lose',async({page})=>{await page.addInitScript(()=>{Math.random=()=>0});await page.goto('/play/mine-protocol');await page.getByRole('button',{name:'Cell 2',exact:true}).click();await expect(page.getByText('MINE HIT',{exact:true})).toHaveCount(0);await expect(page.getByRole('button',{name:'Cell 2',exact:true})).toBeDisabled()});

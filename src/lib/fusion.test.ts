@@ -1,0 +1,1 @@
+import {describe,it,expect} from 'vitest';import {move} from './fusion';describe('fusion',()=>{it('merges each tile once',()=>{const r=move([2,2,2,2,...Array(12).fill(0)],'left');expect(r.board.slice(0,4)).toEqual([4,4,0,0]);expect(r.points).toBe(8)});it('detects unchanged moves',()=>{expect(move([2,...Array(15).fill(0)],'left').changed).toBe(false)})});

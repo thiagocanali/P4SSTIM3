@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { games, randomGame } from './catalog';
 describe('arcade catalog', () => {
-  it('has ten uniquely addressable games with valid metadata', () => {
-    expect(games).toHaveLength(10);
+  it('has eleven uniquely addressable games with valid metadata', () => {
+    expect(games).toHaveLength(11);
     expect(new Set(games.map(game => game.id)).size).toBe(games.length);
     for (const game of games) {
       expect(game.id).toMatch(/^[a-z]+(?:-[a-z]+)*$/);

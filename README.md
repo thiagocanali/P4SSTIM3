@@ -7,7 +7,7 @@
 Node.js 22 or newer recommended.
 
 ```bash
-npm ci
+npm install
 npm run dev
 npm run test
 npm run build
@@ -23,13 +23,20 @@ npm run build
 | Code Breaker | Logic | Guess the three different digits within eight tries |
 | Chaos Button | Experimental | Press when green, stop when red |
 
+| Neon Snake | Arcade | Collect food and avoid collisions |
+| Cyber Tac Toe | Logic | Play against the computer |
+| Reflex Arena | Arcade | React to ten signals |
+| Mine Protocol | Puzzle | Reveal safe cells |
+| Color Rush | Arcade | Match the ink color |
+| Fusion 2048 | Puzzle | Merge equal tiles |
+
 ## Technical architecture
 
-- `src/catalog.ts` is the lazy-loaded registry of the five original games.
+- `src/catalog.ts` is the lazy-loaded registry of the eleven games.
 - `src/games/` holds individual React game implementations.
 - `src/lib/` holds game logic designed to be unit-testable.
 - Guest favorites, high scores and a 50-session history are stored locally in browser storage. The history is available at `/history`. There is no account system or server-side leaderboard.
-- `public/manifest.webmanifest` adds install metadata; offline caching is **not** enabled.
+- `public/manifest.webmanifest` adds install metadata; a build-generated service worker precaches game bundles. Offline navigation is tested in Chromium desktop and mobile emulation.
 - `npm run test` runs Vitest; `npm run build` runs TypeScript validation and the Vite production build.
 - CI runs on pushes to `main`, pull requests and manual dispatch. Vercel handles Git-connected production deployments.
 

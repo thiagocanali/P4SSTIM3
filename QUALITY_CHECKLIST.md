@@ -47,3 +47,8 @@ This checklist is a living audit. **Implemented** is not the same as **verified*
 ## Working rules
 
 Commit straight to main only as approved. Keep commits scoped; do not bypass checks. Avoid manual Vercel deploys. A Vercel READY build alone does **not** establish gameplay correctness.
+
+## Audit baseline — 2026-11-26
+- [x] Eleven registered games; route, pause/restart and offline smoke tests passed on commit e26a66e (CI 45748267168: 21 unit and 26 browser tests).
+- [ ] Validate the new first-click mine protection, pause-aware reaction timing and Color Rush countdown under repeated input.
+- [ ] Verify category deduplication and updated homepage count in CI.
